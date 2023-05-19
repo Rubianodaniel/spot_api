@@ -30,9 +30,9 @@ class CemerasDataSerializer(BaseModel):
         if not image_base64:
             raise HTTPException(status_code=400, detail="The image_base64 field cannot be empty.")
         
-        pattern = r'^data:image/[a-zA-Z]+;base64,'
-        if not re.match(pattern, image_base64):
-            raise HTTPException(status_code=422, detail="The format of image_base64 is wrong" )
+        # pattern = r'^[a-zA-Z]'
+        # if not re.match(pattern, image_base64):
+        #     raise HTTPException(status_code=422, detail="The format of image_base64 is wrong" )
         return image_base64
     
     

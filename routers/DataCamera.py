@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta
 
 from fastapi import APIRouter, Depends, HTTPException, status
+from generic_functions.upload_azure import upload_images_to_azure
 from models.camerasdatamodel import CamerasDataModel
 from serialzers.camerasdataserializer import CemerasDataSerializer
 from sqlalchemy.exc import SQLAlchemyError
@@ -24,6 +25,7 @@ def create_data_in_db(data, db):
         db.add(new_data)
         db.flush()
         db.commit()
+        db.refresh(new_data)
         return new_data
     except SQLAlchemyError as e:
         db.rollback()
@@ -36,11 +38,9 @@ def create_data_in_db(data, db):
 @router.get("/", status_code=status.HTTP_200_OK)
 async def list_data_camera():
     db = session()
-    try:    
-        return db.query(CamerasDataModel).all()
+    return db.query(CamerasDataModel).all()
     
-    except:
-        return "no data"
+
     
 
 
@@ -48,9 +48,10 @@ async def list_data_camera():
 async def create_user(data:CemerasDataSerializer):
     db = session()
     try:
-        create_data_in_db(data, db)
-
-        return {"message": "Usuario creado exitosamente", "user": data.dict()}
+        new_data = create_data_in_db(data, db)
+        # image = upload_images_to_azure(new_data.image_base64)
+        # print(image)
+        return {"message": "la data se ha creado correctamente", "data": new_data}
     
     except Exception as e:
         raise HTTPException(status_code=status.HTTP_402_PAYMENT_REQUIRED, detail=str(e))
