@@ -1,7 +1,7 @@
 import re
 from fastapi import HTTPException
 from pydantic import BaseModel, Field, validator
-from typing import Optional
+from typing import Optional, List
 
 
 
@@ -41,3 +41,6 @@ class CemerasDataSerializer(BaseModel):
         if not camera_id:
             raise HTTPException(status_code=400, detail="The camera_id field cannot be empty.")
         return camera_id
+    
+
+

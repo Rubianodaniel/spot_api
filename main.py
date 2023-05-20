@@ -11,5 +11,5 @@ Base.metadata.create_all(bind=engine)
 
 app.include_router(DataCamera.router)
 # app.include_router(auth.router)
-app.include_router(authjwt.router)
+# app.include_router(authjwt.router)
 
