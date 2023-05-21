@@ -20,7 +20,7 @@ Para ejecutar la API, se requiere instalar las dependencias especificadas en el 
 
 Desde la línea de comandos, navega hasta la raíz del proyecto y ejecuta los siguientes comando para inicializar Alembic:
 
-    alembic init migrations
+    alembic init alembic
     
     alembic revision --autogenerate -m "primera migracion"
     
