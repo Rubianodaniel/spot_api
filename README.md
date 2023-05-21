@@ -29,6 +29,7 @@ Para ejecutar la API, se requiere instalar las dependencias especificadas en el 
 
 ## configuracion del servidor
 Desde la línea de comandos, navega hasta la raíz del proyecto y ejecuta el siguiente comando:
+
     uvicorn main:app --reload 
 
 ## Pruebas con pytest
