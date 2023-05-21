@@ -124,7 +124,7 @@ async def upload_data_by_batch(list_data: ListCamerasDataSerializer, db: Session
             raise HTTPException(status_code=status.HTTP_400_BAD_REQUEST, detail="No more than 100 photos may be uploaded in a single request.")
         
         lst_new_data = []
-        
+       
         for element in list_data:
             for data in element[1]:
                 task = create_data_in_db(data, db)
@@ -134,11 +134,12 @@ async def upload_data_by_batch(list_data: ListCamerasDataSerializer, db: Session
 
         lst_ids = []    
         upload_tasks = []
+        count = 0
             
         for element in results:
             lst_ids.append(element.id)
             camera_id = element.camera_id
-            filename = f"{camera_id}{str(element.date)}.jpg"
+            filename = f"{camera_id}{str(element.date)}{count}.jpg"
             filename = clean_filename(filename)
             image = element.image_base64 
             task = upload_blob(filename=filename, container=container_name, image_base64=image)
