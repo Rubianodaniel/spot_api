@@ -30,16 +30,15 @@ Para ejecutar la API, se requiere instalar las dependencias especificadas en el 
 **Inicializa Alembic:**
 
 Desde la línea de comandos, navega hasta la raíz del proyecto y ejecuta los siguientes comando para inicializar Alembic:
+    alembic init alembic
 
-        alembic init alembic
+en el archivo alembic.ini verificar que la variable tenga esta informacion:
 
-en el archivo que se crea alembic.ini, asegure que la variable sqlalchemy.url tenga el siguiente valor:
-    
-        sqlalchemy.url = sqlite:///database.db
-    
+    sqlalchemy.url = sqlite:///database.db
+
 hacer las migraciones:
-
     alembic revision --autogenerate -m "primera migracion"
+    
     alembic upgrade head
 
     
