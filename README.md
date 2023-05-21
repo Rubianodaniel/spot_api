@@ -1,36 +1,35 @@
-# API PRUEBA TECNICA SPOT
+# API PRUEBA TÉCNICA SPOT
 
 La API es un backend que permite administrar datos de cámaras. Proporciona endpoints para recuperar, crear, eliminar y cargar datos de cámaras en Azure Blob Storage.
 
-## configuracion 
-### crear un entorno virtual 
-    windows:
+## Configuración 
+### Crear un entorno virtual 
+#### Windows:
 
-    crear entorno: py -m venv venv 
-    activar entorno:  .\venv\scripts\activate
+Crear entorno: `py -m venv venv` 
+Activar entorno: `.\\venv\\Scripts\\activate`
 
-    Linux o macOs:
+#### Linux o macOS:
 
-    crear entorno: python3 -m venv venv   
-    activar entorno : source venv/bin/activate
-
+Crear entorno: `python3 -m venv venv`   
+Activar entorno: `source venv/bin/activate`
 
 Se requiere un archivo `.env` en la carpeta `app` que contenga la siguiente configuración:
-    El archivo `.env` debe contener la clave secreta (`SECRET_KEY`) necesaria para la aplicación y la cadena de conexión (`CONNECTION_STRING`) para acceder a la cuenta de Azure Blob Storage. 
-    Este archivo `.env` se utilizará para cargar la configuración de la aplicación durante la ejecución.
-    esto se enviara por correo.
+El archivo `.env` debe contener la clave secreta (`SECRET_KEY`) necesaria para la aplicación y la cadena de conexión (`CONNECTION_STRING`) para acceder a la cuenta de Azure Blob Storage. 
+Este archivo `.env` se utilizará para cargar la configuración de la aplicación durante la ejecución.
+Estos detalles serán proporcionados por correo electrónico.
 
 ## Instalación de dependencias
 
 Para ejecutar la API, se requiere instalar las dependencias especificadas en el archivo `requirements.txt`. Puedes hacerlo ejecutando el siguiente comando:
 
-    pip install -r requirements.txt
-    
+pip install -r requirements.txt
 
-## configuracion del servidor
+## Configuración del servidor
 Desde la línea de comandos, navega hasta la raíz del proyecto y ejecuta el siguiente comando:
 
-    uvicorn main:app --reload 
+uvicorn main:app --reload
+
 
 ## Pruebas con pytest
 
@@ -39,10 +38,9 @@ A continuación se explica cómo ejecutar las pruebas y obtener resultados detal
 
 **Ejecución de las pruebas:**
 
-Para ejecutar las pruebas, se debe utilizar el siguiente comando:
+Para ejecutar las pruebas, utiliza el siguiente comando:
 
-    pytest -v
-
+pytest -v
 
 ## Funcionalidad
 
@@ -59,7 +57,6 @@ Para ejecutar las pruebas, se debe utilizar el siguiente comando:
 - Almacenamiento de imágenes: Azure Blob Storage
 
 ## Detalle del funcionamiento.
-
 
 ### Listar datos de cámaras
 
@@ -107,9 +104,13 @@ Endpoint: `POST /cameras/upload_list`
 Parámetros de solicitud:
 - `list_data`: Lista de objetos JSON con los datos de las cámaras a cargar.
 
+## Documentación
+
+La documentación de la API se encuentra disponible en el siguiente endpoint: `/docs`. Puedes acceder a ella desde tu navegador para obtener información detallada sobre los endpoints, parámetros de solicitud y respuestas esperadas. También puedes acceder a la documentación en formato Swagger en el endpoint `/redoc`.
 
 ## Autor
 
-Este proyecto ha sido desarrollado por Daniel Eduardo Rubiano Meneses
+Este proyecto ha sido desarrollado por Daniel Eduardo Rubiano Meneses.
+
 
 
