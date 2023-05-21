@@ -40,6 +40,7 @@ A continuación se explica cómo ejecutar las pruebas y obtener resultados detal
 **Ejecución de las pruebas:**
 
 Para ejecutar las pruebas, se debe utilizar el siguiente comando:
+
     pytest -v
 
 
