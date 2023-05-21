@@ -11,5 +11,4 @@ container_name = os.getenv("CONTAINER_NAME")
 
 
 
-conecction_string= os.getenv("CONNECTION_STRING")
-# conecction_string = (f"DefaultEndpointsProtocol=https;AccountName={account_name};AccountKey={account_key};EndpointSuffix=core.windows.net")
+connection_string= os.getenv("CONNECTION_STRING")
