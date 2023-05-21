@@ -3,11 +3,22 @@
 La API es un backend que permite administrar datos de cámaras. Proporciona endpoints para recuperar, crear, eliminar y cargar datos de cámaras en Azure Blob Storage.
 
 ## configuracion 
+### crear un entorno virtual 
+    windows:
+
+    crear entorno: py -m venv venv 
+    activar entorno:  .\venv\scripts\activate
+
+    Linux o macOs:
+
+    crear entorno: python3 -m venv venv   
+    activar entorno : source venv/bin/activate
 
 
 Se requiere un archivo `.env` en la carpeta `app` que contenga la siguiente configuración:
     El archivo `.env` debe contener la clave secreta (`SECRET_KEY`) necesaria para la aplicación y la cadena de conexión (`CONNECTION_STRING`) para acceder a la cuenta de Azure Blob Storage. 
     Este archivo `.env` se utilizará para cargar la configuración de la aplicación durante la ejecución.
+    esto se enviara por correo.
 
 ## Instalación de dependencias
 
@@ -19,9 +30,19 @@ Para ejecutar la API, se requiere instalar las dependencias especificadas en el 
 **Inicializa Alembic:**
 
 Desde la línea de comandos, navega hasta la raíz del proyecto y ejecuta los siguientes comando para inicializar Alembic:
-    alembic init alembic
+
+        alembic init alembic
+
+en el archivo que se crea alembic.ini, asegure que la variable sqlalchemy.url tenga el siguiente valor:
+    
+        sqlalchemy.url = sqlite:///database.db
+    
+hacer las migraciones:
+
     alembic revision --autogenerate -m "primera migracion"
     alembic upgrade head
+
+    
 
 ## configuracion del servidor
 Desde la línea de comandos, navega hasta la raíz del proyecto y ejecuta el siguiente comando:
