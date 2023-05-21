@@ -25,22 +25,6 @@ Se requiere un archivo `.env` en la carpeta `app` que contenga la siguiente conf
 Para ejecutar la API, se requiere instalar las dependencias especificadas en el archivo `requirements.txt`. Puedes hacerlo ejecutando el siguiente comando:
 
     pip install -r requirements.txt
-
-## configuracion de base de datos 
-**Inicializa Alembic:**
-
-Desde la línea de comandos, navega hasta la raíz del proyecto y ejecuta los siguientes comando para inicializar Alembic:
-    alembic init alembic
-
-en el archivo alembic.ini verificar que la variable tenga esta informacion:
-
-    sqlalchemy.url = sqlite:///database.db
-
-hacer las migraciones:
-    alembic revision --autogenerate -m "primera migracion"
-    
-    alembic upgrade head
-
     
 
 ## configuracion del servidor
