@@ -49,7 +49,7 @@ async def upload_blob(filename:str, container:str, image_base64:str):
     """
         
     try:
-        data = await decode_base64_image(image_base64, filename)
+        data = await decode_base64_image(image_base64)
         blob_service_client = await conection_azure(connection_string=connection_string)
         blob_client = blob_service_client.get_blob_client(container=container, blob=filename)
         blob_client.upload_blob(data=data)

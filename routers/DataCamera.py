@@ -1,5 +1,5 @@
 
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Query
 import asyncio
 
 from sqlalchemy.exc import SQLAlchemyError
@@ -24,22 +24,71 @@ router = APIRouter(prefix="/cameras",
 
 
 @router.get("/", status_code=status.HTTP_200_OK)
-async def list_data_camera(db: Session = Depends(get_session)):
+async def list_data_camera(                           
+    page: int = Query(1, ge=1),  # Número de página (por defecto: 1)
+    page_size: int = Query(10, ge=1, le=100),  # Tamaño de la página (por defecto: 10, máximo: 100)
+    db: Session = Depends(get_session)
+    ):
     """
-    Retrieves a list of camera data from the database.
+    Retrieve a list of data from the database.
 
     Args:
+        page (int): Number of the page to retrieve (default: 1).
+        page_size (int): Size of the page (default: 10, maximum: 100).
         db (Session): Database session dependency.
 
     Returns:
-        List[CamerasDataModel]: List of camera data.
+        dict: A dictionary containing the retrieved data, page number, and page size.
 
     Raises:
-        None.
+        HTTPException: Raised if there is an internal server error.
     """
-    lst_data = db.query(CamerasDataModel).all()        
-    db.close()
-    return lst_data
+    try:
+        start_index = (page - 1) * page_size
+
+        lst_data = db.query(CamerasDataModel).offset(start_index).limit(page_size).all()
+        
+        db.close()
+        return {
+                "data": lst_data,
+                "page": page,
+                "page_size": page_size,
+                }
+
+    except Exception as e:
+        raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=str(e))
+
+
+
+@router.get("/{id}", status_code=status.HTTP_200_OK)
+async def get_data_camera_by_id(                           
+    id : str,
+    db: Session = Depends(get_session)
+    ):
+    """
+    Retrieve a specific data entry from the database by its ID.
+
+    Args:
+        id (str): ID of the data entry to retrieve.
+        db (Session): Database session dependency.
+
+    Returns:
+        dict: A dictionary containing the retrieved data entry.
+
+    Raises:
+        HTTPException: Raised if the data entry is not found or if there is an internal server error.
+    """
+    try:
+        
+        data = db.query(CamerasDataModel).filter(CamerasDataModel.id == id).first()
+        db.close()
+        if data is None:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Entry not found")
+        
+        return {"data": data}
+    except HTTPException as e:
+        raise e
+
 
 
 @router.post("/", status_code=status.HTTP_201_CREATED)
@@ -134,12 +183,12 @@ async def upload_data_by_batch(list_data: ListCamerasDataSerializer, db: Session
 
         lst_ids = []    
         upload_tasks = []
-        count = 0
+
             
         for element in results:
             lst_ids.append(element.id)
             camera_id = element.camera_id
-            filename = f"{camera_id}{str(element.date)}{count}.jpg"
+            filename = f"{camera_id}{str(element.date)}.jpg"
             filename = clean_filename(filename)
             image = element.image_base64 
             task = upload_blob(filename=filename, container=container_name, image_base64=image)
@@ -149,7 +198,7 @@ async def upload_data_by_batch(list_data: ListCamerasDataSerializer, db: Session
 
         query = db.query(CamerasDataModel).filter(CamerasDataModel.id.in_(lst_ids)).all()
 
-        return {"message": "La lista de datos se ha creado correctamente", "data": query}
+        return {"message": "The data list has been created successfully", "data": query}
 
     except SQLAlchemyError as e:
         db.rollback()
